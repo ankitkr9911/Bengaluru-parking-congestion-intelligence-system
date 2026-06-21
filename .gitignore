@@ -1,0 +1,53 @@
+# Secret credentials
+.env
+*.key
+*.pem
+*.secret
+
+# API keys and tokens
+*_credentials.json
+service_account.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+pip-log.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Generated pipeline outputs (large CSVs — run pipeline to regenerate)
+data/
+cache/
+
+# Raw dataset (too large for git)
+dataset.csv
+*.csv
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log

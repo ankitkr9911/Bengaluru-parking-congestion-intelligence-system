@@ -1,0 +1,36 @@
+# Core data processing
+pandas>=2.0
+numpy>=1.24
+geopandas>=0.14
+shapely>=2.0
+
+# OpenStreetMap enrichment
+osmnx>=1.9
+
+# Spatial statistics & clustering
+st-dbscan>=0.2
+libpysal>=4.9
+esda>=2.5
+splot>=1.1
+h3>=3.7
+scikit-learn>=1.3
+
+# Forecasting
+prophet>=1.1
+
+# Visualization
+folium>=0.15
+plotly>=5.18
+matplotlib>=3.8
+seaborn>=0.13
+streamlit>=1.30
+streamlit-folium>=0.18
+
+# Agent framework
+langchain>=0.3
+langgraph>=0.2
+langchain-google-genai>=2.0
+
+# Utilities
+pytz>=2024.1
+tqdm>=4.66
