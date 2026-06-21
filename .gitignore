@@ -26,13 +26,18 @@ venv/
 env/
 ENV/
 
-# Generated pipeline outputs (large CSVs — run pipeline to regenerate)
-data/
+# Raw dataset — too large for GitHub (104MB)
+dataset.csv
+
+# Large intermediate pipeline files — too large for GitHub
+data/cleaned_violations.csv   # 116MB — intermediate, not needed by dashboard
+data/osm_enriched.csv         # 168MB — intermediate, not needed by dashboard
+
+# OSM network cache — can be large
 cache/
 
-# Raw dataset (too large for git)
-dataset.csv
-*.csv
+# The 5 small dashboard CSVs ARE committed (hotspots, forecasts, impact_scores,
+# patrol_schedule, queueing_results) — do NOT add data/ to this file
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
@@ -51,3 +56,7 @@ desktop.ini
 
 # Logs
 *.log
+
+cache/
+data/
+dataset.csv

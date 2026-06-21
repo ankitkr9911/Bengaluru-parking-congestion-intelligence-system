@@ -19,9 +19,17 @@ import os
 import sys
 from pathlib import Path
 
-# Load .env from project root
+# Load .env from project root (local dev)
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
+
+# Streamlit Cloud: pull secrets into env vars if not already set
+try:
+    import streamlit as _st_tmp
+    if "OPENAI_API_KEY" in _st_tmp.secrets and not os.environ.get("OPENAI_API_KEY"):
+        os.environ["OPENAI_API_KEY"] = _st_tmp.secrets["OPENAI_API_KEY"]
+except Exception:
+    pass
 
 # Add project root to path
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
