@@ -26,3 +26,5 @@ langchain-google-genai
 
 pytz
 tqdm
+
+python-dotenv
