@@ -59,3 +59,6 @@ desktop.ini
 
 cache/
 dataset.csv
+
+data/cleaned_violations.csv
+data/osm_enriched.csv
