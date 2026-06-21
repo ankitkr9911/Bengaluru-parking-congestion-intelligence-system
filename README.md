@@ -55,107 +55,11 @@ A **7-phase data science pipeline** + **6-agent AI system** that transforms raw 
 
 ### Pipeline (7 Phases)
 
-```
-dataset.csv (298K violations)
-     │
-     ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 1: Data Cleaning                                      │
-│  • UTC → IST timezone fix (critical: peak-hour features)   │
-│  • Multi-code offence parsing (e.g., "109,112" → ["109","112"])│
-│  • Vehicle severity weighting                               │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 2: OSM Enrichment (OpenStreetMap via OSMnx v2)       │
-│  • 593K road segments downloaded for Bengaluru bbox        │
-│  • Spatial join → road type, lane count, capacity          │
-│  • POI proximity → metro stations, shops, schools          │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 3: Hotspot Detection (Dual Method + Cross-Validation) │
-│                                                             │
-│  A) ST-DBSCAN (BallTree implementation)                    │
-│     • Spatial neighbors via BallTree (eps1=200m)           │
-│     • Then temporal filter (eps2=120min)                   │
-│     • Finds spatiotemporal recurring clusters              │
-│                                                             │
-│  B) Getis-Ord Gi* + Local Moran's I (on H3 hex cells)     │
-│     • KNN spatial weights (k=8, row-standardized)         │
-│     • Gi* z-scores + pseudo p-values (p<0.05)             │
-│     • LISA quadrant labels (HH/HL/LH/LL)                  │
-│                                                             │
-│  Cross-Validation:                                          │
-│    All 3 agree → CONFIRMED_HIGH                            │
-│    2 of 3     → CONFIRMED                                  │
-│    1 of 3     → EMERGING                                   │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 4: Congestion Quantification                          │
-│  • M/M/∞ queueing: E[N] = λ/μ (expected vehicles queued)  │
-│  • BPR Volume-Delay Function:                               │
-│    t = t₀ × (1 + α × (V/C)^β)  [α=0.15, β=4]            │
-│  → Output: minutes of delay per km, per H3 cell            │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 5: Congestion Impact Score (CIS)                      │
-│  Weighted composite (min-max normalized):                   │
-│  CIS = 0.25×violation_density + 0.20×vehicle_severity     │
-│      + 0.20×queueing_delay   + 0.15×road_capacity_impact  │
-│      + 0.10×temporal_persistence + 0.10×peak_hour_ratio   │
-│  + Sensitivity analysis proving ranking stability           │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 6: Risk Forecasting                                   │
-│  • Hybrid model:                                            │
-│    - Prophet (for top hotspots with ≥8 weeks of data)      │
-│    - Trend-slope classification (low-data zones)           │
-│  → Output: predicted_risk, trend (RISING/STABLE/FALLING)   │
-└───────────────────────┬─────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Phase 7: Patrol Prioritization                              │
-│  • Score = CIS × predicted_risk                            │
-│  • Shift recommendation (morning/evening/night)            │
-│  • Plain-language reasoning per zone                       │
-│  → Output: patrol_schedule.csv (54 police stations)        │
-└─────────────────────────────────────────────────────────────┘
-```
+![System Architecture](images/9.png)
 
 ### Agentic Layer (LangGraph + GPT-4o)
 
-```
-User Query
-    │
-    ▼
-┌─────────────┐
-│   Router    │  ← Classifies intent
-│    Node     │
-└──────┬──────┘
-       │
-  ┌────┴────────────────────────────────┐
-  │                                     │
-  ▼                                     ▼
-Hotspot Analyst        Impact Quantifier
-(Gi*, CIS, maps)       (BPR, queueing, delay)
-       │                                │
-  ┌────┴────────────────────────────────┘
-  │
-  ├── Policy Advisor       (legal codes, fines)
-  ├── Enforcement Strategist (patrol scheduling)
-  ├── Forecast Analyst      (Prophet, trends)
-  └── General Assistant     (multi-topic)
-```
+![Agentic AI Flow](images/10.png)
 
 Each agent has access to 8 specialized tools that query the pre-computed pipeline outputs.
 
@@ -338,8 +242,3 @@ BPR (Bureau of Public Roads) is the standard traffic engineering formula used by
 
 Built for **Flipkart Gridlock 2.0** Hackathon — Round 2
 
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
