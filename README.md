@@ -243,7 +243,7 @@ BPR (Bureau of Public Roads) is the standard traffic engineering formula used by
 ## 🌐 Live Demo
 
 🚀 **Try ParkSight AI:**  
-[https://YOUR-STREAMLIT-URL.streamlit.app](https://parksight-ai-bengaluru-parking-congestion-intelligence-system.streamlit.app/)
+[https://parksight-ai-bengaluru-parking-congestion-intelligence-system.streamlit.app/](https://parksight-ai-bengaluru-parking-congestion-intelligence-system.streamlit.app/)
 
 > **Note:** The AI Assistant is fully functional and can answer questions about hotspots, forecasts, patrol recommendations, CIS analysis, and traffic violations.
 >
