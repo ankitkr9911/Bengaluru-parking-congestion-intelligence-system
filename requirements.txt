@@ -23,6 +23,7 @@ streamlit-folium
 langchain
 langgraph
 langchain-google-genai
+langchain-openai
 
 pytz
 tqdm
